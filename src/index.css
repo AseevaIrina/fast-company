@@ -57,3 +57,8 @@ button {
 .users__badge:last-of-type {
   margin-right: 0;
 }
+
+.users__favorites {
+  display: block;
+  margin-left: 30px;
+}
