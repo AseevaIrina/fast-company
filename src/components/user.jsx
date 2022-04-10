@@ -1,24 +1,45 @@
-import React from "react";
-import Quality from "./quality";
-import Bookmark from "./bookmark";
+import React from 'react'
+import Quality from './quality'
+import Bookmark from './bookmark'
+import PropTypes from 'prop-types'
 
-const User = ({user, onDelete, onStatus}) => {
-
+const User = ({ user, onDelete, onStatus }) => {
     return (
         <tr className="users__row">
-            <td scope="row" className="users__col">{user.name}</td>
+            <td scope="row" className="users__col">
+                {user.name}
+            </td>
             <td className="users__col">
                 {user.qualities.map((quality) => {
-                    return <Quality {...quality}  key={quality._id} />
+                    return <Quality {...quality} key={quality._id} />
                 })}
             </td>
             <td className="users__col">{user.profession.name}</td>
             <td className="users__col">{user.completedMeetings}</td>
             <td className="users__col">{user.rate}&nbsp;/5</td>
-            <td className="users__col"><Bookmark status={user.bookmark} onStatus={onStatus} id={user._id} /></td>
-            <td className="users__col"><button className="btn btn-danger btn-lg" onClick={() => onDelete(user._id)}>Delete</button></td>
+            <td className="users__col">
+                <Bookmark
+                    status={user.bookmark}
+                    onStatus={onStatus}
+                    id={user._id}
+                />
+            </td>
+            <td className="users__col">
+                <button
+                    className="btn btn-danger btn-lg"
+                    onClick={() => onDelete(user._id)}
+                >
+                    Delete
+                </button>
+            </td>
         </tr>
     )
+}
+
+User.propTypes = {
+    user: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onStatus: PropTypes.func.isRequired
 }
 
 export default User
