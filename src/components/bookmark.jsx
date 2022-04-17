@@ -1,22 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Bookmark = ({ id, status, onStatus }) => {
+const Bookmark = ({ status, ...rest }) => {
     return (
-        <button className="users__favorites" onClick={() => onStatus(id)}>
+        <button className="users__favorites" {...rest}>
             <i
-                className={`${
-                    status ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'
-                }`}
+                className={'bi bi-bookmark' + (status ? '-fill' : '')}
             />
         </button>
     )
 }
 
 Bookmark.propTypes = {
-    id: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
-    onStatus: PropTypes.func.isRequired
+    status: PropTypes.bool
 }
 
 export default Bookmark
