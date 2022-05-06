@@ -3,14 +3,12 @@ import { paginate } from '../utils/paginate'
 import Pagination from './pagination'
 import PropTypes from 'prop-types'
 import GroupList from './groupList'
-import api from '../api/index'
 import SearchStatus from './searchStatus'
 import UsersTable from './usersTable'
 import _ from 'lodash'
 
-const Users = () => {
+const UsersList = ({ usersData, professions }) => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [professions, setProfessions] = useState()
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
     const pageSize = 8
@@ -18,8 +16,8 @@ const Users = () => {
     const [users, setUsers] = useState()
 
     useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data))
-    }, [])
+        setUsers(usersData)
+    }, [usersData])
 
     const handleDelete = (id) => {
         setUsers((users) => users.filter((user) => user._id !== id))
@@ -34,10 +32,6 @@ const Users = () => {
 
         setUsers(newUsers)
     }
-
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data))
-    }, [])
 
     useEffect(() => {
         setCurrentPage(1)
@@ -111,8 +105,9 @@ const Users = () => {
     return 'loading...'
 }
 
-Users.propTypes = {
-    users: PropTypes.array
+UsersList.propTypes = {
+    usersData: PropTypes.array,
+    professions: PropTypes.array
 }
 
-export default Users
+export default UsersList
