@@ -6,8 +6,10 @@ import GroupList from './groupList'
 import SearchStatus from './searchStatus'
 import UsersTable from './usersTable'
 import _ from 'lodash'
+import api from '../api'
 
-const UsersList = ({ usersData, professions }) => {
+const UsersList = () => {
+    const [professions, setProfessions] = useState()
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
@@ -16,8 +18,12 @@ const UsersList = ({ usersData, professions }) => {
     const [users, setUsers] = useState()
 
     useEffect(() => {
-        setUsers(usersData)
-    }, [usersData])
+        api.users.fetchAll().then((data) => setUsers(data))
+    }, [])
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data))
+    }, [])
 
     const handleDelete = (id) => {
         setUsers((users) => users.filter((user) => user._id !== id))
