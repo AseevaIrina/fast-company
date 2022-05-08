@@ -13,6 +13,7 @@ const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
+    const [searchRequest, setSearchRequest] = useState('')
     const pageSize = 8
 
     const [users, setUsers] = useState()
@@ -43,8 +44,14 @@ const UsersList = () => {
         setCurrentPage(1)
     }, [selectedProf])
 
+    const handleChange = ({ target }) => {
+        setSearchRequest(target.value.trim())
+        setSelectedProf()
+    }
+
     const handleProfessionSelect = (item) => {
         setSelectedProf(item)
+        setSearchRequest('')
     }
 
     const handlePageChange = (pageIndex) => {
@@ -56,9 +63,15 @@ const UsersList = () => {
     }
 
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter((user) => _.isEqual(user.profession, selectedProf))
-            : users
+        let filteredUsers = users
+
+        if (selectedProf) {
+            filteredUsers = users.filter((user) => _.isEqual(user.profession, selectedProf))
+        }
+
+        if (searchRequest) {
+            filteredUsers = users.filter((user) => user.name.includes(searchRequest))
+        }
 
         const count = filteredUsers.length
 
@@ -87,6 +100,13 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column flex-shrink-1 w-100">
                     <SearchStatus usersNumber={count} />
+                    <input type="text"
+                        placeholder="Search"
+                        value={searchRequest}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+
                     {count > 0 && (
                         <UsersTable
                             users={usersCrop}
