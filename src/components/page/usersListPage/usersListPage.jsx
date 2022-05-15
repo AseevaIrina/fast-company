@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { paginate } from '../utils/paginate'
-import Pagination from './pagination'
+import { paginate } from '../../../utils/paginate'
+import Pagination from '../../common/pagination'
 import PropTypes from 'prop-types'
-import GroupList from './groupList'
-import SearchStatus from './searchStatus'
-import UsersTable from './usersTable'
+import GroupList from '../../common/groupList'
+import SearchStatus from '../../ui/searchStatus'
+import UsersTable from '../../ui/usersTable'
 import _ from 'lodash'
-import api from '../api'
+import api from '../../../api'
 
-const UsersList = () => {
+const UsersListPage = () => {
     const [professions, setProfessions] = useState()
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedProf, setSelectedProf] = useState()
@@ -42,7 +42,7 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1)
-    }, [selectedProf])
+    }, [selectedProf, searchRequest])
 
     const handleChange = ({ target }) => {
         setSearchRequest(target.value.trim())
@@ -70,7 +70,7 @@ const UsersList = () => {
         }
 
         if (searchRequest) {
-            filteredUsers = users.filter((user) => user.name.includes(searchRequest))
+            filteredUsers = users.filter((user) => user.name.toLowerCase().includes(searchRequest.toLowerCase()))
         }
 
         const count = filteredUsers.length
@@ -131,9 +131,9 @@ const UsersList = () => {
     return 'loading...'
 }
 
-UsersList.propTypes = {
+UsersListPage.propTypes = {
     usersData: PropTypes.array,
     professions: PropTypes.array
 }
 
-export default UsersList
+export default UsersListPage

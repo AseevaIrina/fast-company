@@ -1,9 +1,10 @@
 import React from 'react'
-import NavBar from './components/navBar'
-import { Route, Switch } from 'react-router-dom'
-import Users from './components/layouts/users'
-import Main from './components/layouts/main'
-import Login from './components/layouts/login'
+import NavBar from './components/ui/navBar'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import Users from './layouts/users'
+import Main from './layouts/main'
+import Login from './layouts/login'
+import NotFound from './layouts/not-found'
 
 export default function App() {
     return (
@@ -12,8 +13,10 @@ export default function App() {
 
             <Switch>
                 <Route path='/' exact component={Main} />
-                <Route path='/login' component={Login} />
-                <Route path='/users/:userId?' component={Users} />
+                <Route path='/login:type?/' component={Login} />
+                <Route path='/users/' component={Users} />
+                <Route path='/404' component={NotFound} />
+                <Redirect to='/404' />
             </Switch>
         </>
     )
