@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import withClassesAndOnChange from '../../hoc/form/withClassessAndOnChange'
 
 const RadioField = ({ options, name, onChange, value, label }) => {
-    const handleChange = ({ target }) => {
-        onChange({ name: target.name, value: target.value })
-    }
-
     return (
         <div className="mb-4">
             <label className="form-label">
@@ -23,7 +20,7 @@ const RadioField = ({ options, name, onChange, value, label }) => {
                             id={option.name + '_' + option.value}
                             value={option.value}
                             checked={option.value === value}
-                            onChange={handleChange}
+                            onChange={onChange}
                         />
                         <label htmlFor={option.name + '_' + option.value}
                             className="form-check-label"
@@ -45,4 +42,6 @@ RadioField.propTypes = {
     label: PropTypes.string
 }
 
-export default RadioField
+const radioFieldWithHOC = withClassesAndOnChange(RadioField)
+
+export default radioFieldWithHOC

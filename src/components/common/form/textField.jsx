@@ -1,20 +1,22 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import withClassesAndOnChange from '../../hoc/form/withClassessAndOnChange'
 
-const TextField = ({ label, type, name, value, onChange, error }) => {
+const TextField = ({
+    label,
+    type = 'text',
+    name,
+    value,
+    getClasses,
+    invalidFeedback,
+    onChange
+}) => {
     const [showPassword, setShowPassword] = useState(false)
-
-    const handleChange = ({ target }) => {
-        onChange({ name: target.name, value: target.value })
-    }
 
     const toggleShowPassword = () => {
         setShowPassword((prevState) => !prevState)
     }
 
-    const getInputClasses = () => {
-        return 'form-control' + (error ? ' is-invalid' : '')
-    }
     return (
         <div className="mb-4">
             <label htmlFor={name}>{ label }</label>
@@ -23,8 +25,8 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
                     name={name}
                     id={name}
                     value={value}
-                    onChange={handleChange}
-                    className={getInputClasses()}
+                    onChange={onChange}
+                    className={getClasses(['form-control'])}
                 />
                 {type === 'password' && (
                     <button className="btn btn-outline-secondary"
@@ -34,14 +36,10 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
                         <i className={'bi bi-eye' + (showPassword ? '-slash' : '')}></i>
                     </button>
                 )}
-                {error && <div className="invalid-feedback">{error}</div>}
+                {invalidFeedback()}
             </div>
         </div>
     )
-}
-
-TextField.defaultProps = {
-    type: 'text'
 }
 
 TextField.propTypes = {
@@ -50,7 +48,11 @@ TextField.propTypes = {
     name: PropTypes.string,
     value: PropTypes.string,
     error: PropTypes.string,
+    getClasses: PropTypes.func,
+    invalidFeedback: PropTypes.func,
     onChange: PropTypes.func
 }
 
-export default TextField
+const TextFieldWithHOC = withClassesAndOnChange(TextField)
+
+export default TextFieldWithHOC

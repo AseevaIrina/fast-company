@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import RadioField from '../../common/form/radioField'
 import MultiSelectField from '../../common/form/multiSelectField'
 
-const UserEdit = () => {
+const UserEditPage = () => {
     const params = useParams()
     const { userId } = params
     const history = useHistory()
@@ -203,4 +203,4 @@ const UserEdit = () => {
     }
 }
 
-export default UserEdit
+export default UserEditPage

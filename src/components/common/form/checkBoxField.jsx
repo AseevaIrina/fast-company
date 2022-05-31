@@ -1,22 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import withClassesAndOnChange from '../../hoc/form/withClassessAndOnChange'
 
-const CheckBoxField = ({ name, value, children, error, onChange }) => {
-    const handleChange = () => {
-        onChange({ name: name, value: !value })
-    }
-
-    const getInputClasses = () => {
-        return 'form-check-input' + (error ? ' is-invalid' : '')
-    }
-
+const CheckBoxField = ({ name, value, children, invalidFeedback, onChange, getClasses }) => {
     return (
         <div className="form-check mb-4">
             <input type="checkbox"
-                className={getInputClasses()}
+                className={getClasses(['form-check-input'])}
                 value=""
                 id={name}
-                onChange={handleChange}
+                name={name}
+                onChange={onChange}
                 checked={value}
             />
             <label htmlFor={name}
@@ -24,9 +18,7 @@ const CheckBoxField = ({ name, value, children, error, onChange }) => {
             >
                 {children}
             </label>
-            {error &&
-                <div className="invalid-feedback">{error}</div>
-            }
+            {invalidFeedback()}
         </div>
     )
 }
@@ -38,8 +30,11 @@ CheckBoxField.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]),
-    error: PropTypes.string,
+    invalidFeedback: PropTypes.func,
+    getClasses: PropTypes.func,
     onChange: PropTypes.func
 }
 
-export default CheckBoxField
+const checkBoxFieldWithHOC = withClassesAndOnChange(CheckBoxField)
+
+export default checkBoxFieldWithHOC

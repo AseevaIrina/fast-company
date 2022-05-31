@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import withClassesAndOnChange from '../../hoc/form/withClassessAndOnChange'
 
 const SelectField = ({
     label,
@@ -8,19 +9,11 @@ const SelectField = ({
     defaultOption,
     options,
     name,
-    error
+    getClasses, invalidFeedback
 }) => {
-    const getInputClasses = () => {
-        return 'form-select' + (error ? ' is-invalid' : '')
-    }
-
     const optionsArray = !Array.isArray(options) && typeof options === 'object'
         ? Object.values(options)
         : options
-
-    const handleChange = ({ target }) => {
-        onChange({ name: target.name, value: target.value })
-    }
 
     return (
         <div className="mb-4">
@@ -28,11 +21,11 @@ const SelectField = ({
                 {label}
             </label>
             <select
-                className={getInputClasses()}
+                className={getClasses(['form-select'])}
                 id={name}
                 name={name}
                 value={value}
-                onChange={handleChange}
+                onChange={onChange}
             >
                 <option value="">
                     {defaultOption}
@@ -49,7 +42,7 @@ const SelectField = ({
                     )
                 }
             </select>
-            {error && <div className="invalid-feedback">{error}</div>}
+            {invalidFeedback()}
         </div>
     )
 }
@@ -61,7 +54,10 @@ SelectField.propTypes = {
     defaultOption: PropTypes.string,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     name: PropTypes.string,
-    error: PropTypes.string
+    getClasses: PropTypes.func,
+    invalidFeedback: PropTypes.func
 }
 
-export default SelectField
+const selectFieldWithHOC = withClassesAndOnChange(SelectField)
+
+export default selectFieldWithHOC
