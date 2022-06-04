@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import api from '../../../api'
 import { useParams } from 'react-router-dom'
 import UserCard from '../../ui/userCard'
 import QualitiesCard from '../../ui/qualitiesCard'
 import MeetingsCard from '../../ui/meetingsCard'
 import Comments from '../../ui/comments'
+import { useUsers } from '../../../hooks/use.users'
 
 const UserPage = () => {
     const params = useParams()
     const { userId } = params
     const [userData, setUserData] = useState()
+    const { getUser } = useUsers()
 
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUserData(data))
+        setUserData(getUser(userId))
     }, [])
 
     if (userData) {
@@ -32,7 +33,7 @@ const UserPage = () => {
             </div>
         )
     }
-    return '...loading'
+    return '...Loading'
 }
 
 UserPage.propTypes = {

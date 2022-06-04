@@ -6,28 +6,22 @@ import GroupList from '../../common/groupList'
 import SearchStatus from '../../ui/searchStatus'
 import UsersTable from '../../ui/usersTable'
 import _ from 'lodash'
-import api from '../../../api'
+import { useUsers } from '../../../hooks/use.users'
+import { useProfessions } from '../../../hooks/use.profession'
 
 const UsersListPage = () => {
-    const [professions, setProfessions] = useState()
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
     const [searchRequest, setSearchRequest] = useState('')
     const pageSize = 8
 
-    const [users, setUsers] = useState()
-
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data))
-    }, [])
-
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data))
-    }, [])
+    const { users } = useUsers()
+    const { professions } = useProfessions()
 
     const handleDelete = (id) => {
-        setUsers((users) => users.filter((user) => user._id !== id))
+        // setUsers((users) => users.filter((user) => user._id !== id))
+        console.log(id)
     }
 
     const handleToggleBookMark = (id) => {
@@ -37,7 +31,8 @@ const UsersListPage = () => {
                 : user
         })
 
-        setUsers(newUsers)
+        // setUsers(newUsers)
+        console.log(newUsers)
     }
 
     useEffect(() => {
@@ -66,7 +61,7 @@ const UsersListPage = () => {
         let filteredUsers = users
 
         if (selectedProf) {
-            filteredUsers = users.filter((user) => _.isEqual(user.profession, selectedProf))
+            filteredUsers = users.filter((user) => user.profession === selectedProf._id)
         }
 
         if (searchRequest) {
