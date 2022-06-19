@@ -12,7 +12,7 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-    const { signIn } = useAuth();
+    const { logIn } = useAuth();
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -57,12 +57,11 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        localStorage.clear();
         const isValid = validate();
         if (!isValid) return;
         try {
-            await signIn(data);
-            history.push("/");
+            await logIn(data);
+            history.push(history.location.state ? history.location.state.from.pathname : "/");
         } catch (error) {
             setErrors(error);
         }
