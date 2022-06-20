@@ -10,21 +10,13 @@ import { useQualities } from "../../../hooks/useQualities";
 import { useUser } from "../../../hooks/useUsers";
 import PropTypes from "prop-types";
 import { useAuth } from "../../../hooks/useAuth";
-import { useHistory } from "react-router-dom";
 
 const EditUserPage = ({ userId }) => {
-    const history = useHistory();
     const { getUserById } = useUser();
     const user = getUserById(userId);
-    const { currentUser, updateUserData } = useAuth();
+    const { updateUserData } = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        if (currentUser._id !== userId) {
-            history.push(`/users/${currentUser._id}`);
-        }
-    }, [userId, currentUser]);
 
     const { professions, isLoading: professionsLoading } = useProfessions();
     const professionsList = professions.map(p => ({
