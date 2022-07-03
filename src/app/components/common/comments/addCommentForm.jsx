@@ -25,12 +25,10 @@ const AddCommentForm = ({ onSubmit }) => {
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
-
     const clearForm = () => {
         setData({});
         setErrors({});
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
@@ -38,7 +36,6 @@ const AddCommentForm = ({ onSubmit }) => {
         onSubmit(data);
         clearForm();
     };
-
     return (
         <div>
             <h2>New comment</h2>

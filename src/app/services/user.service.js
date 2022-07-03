@@ -1,5 +1,5 @@
 import httpService from "./http.service";
-import localStorageSrevice from "./localStorage.service";
+import localStorageService from "./localStorage.service";
 
 const userEndpoint = "user/";
 
@@ -9,17 +9,23 @@ const userService = {
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(userEndpoint + payload._id, payload);
+        const { data } = await httpService.put(
+            userEndpoint + payload._id,
+            payload
+        );
         return data;
     },
     getCurrentUser: async () => {
         const { data } = await httpService.get(
-            userEndpoint + localStorageSrevice.getUserID()
+            userEndpoint + localStorageService.getUserId()
         );
         return data;
     },
-    updateCurrentUser: async (payload) => {
-        const { data } = await httpService.patch(userEndpoint + payload._id, payload);
+    update: async (payload) => {
+        const { data } = await httpService.patch(
+            userEndpoint + localStorageService.getUserId(),
+            payload
+        );
         return data;
     }
 };
